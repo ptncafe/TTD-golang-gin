@@ -1,4 +1,4 @@
-package update_shop_info
+package update_name_repo
 
 import (
 	"TTD-golang-gin-test/model/dto"
@@ -22,6 +22,6 @@ func NewRepository(
 	}
 }
 
-func (r repo) Update (ctx context.Context,request dto.UpdateNameRequest)  error{
+func (r repo) UpdateName (ctx context.Context,request dto.UpdateNameRequest)  error{
 	return nil
 }

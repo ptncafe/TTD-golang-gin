@@ -21,6 +21,6 @@ func NewDomain(log *logrus.Logger,
 	}
 }
 
-func(d domain) Update (ctx context.Context,request dto.UpdateNameRequest)  error{
+func(d domain) UpdateName (ctx context.Context,request dto.UpdateNameRequest)  error{
 	return nil
 }
