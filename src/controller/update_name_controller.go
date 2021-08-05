@@ -1,7 +1,8 @@
 package controller
 import (
 	"TTD-golang-gin-test/model/dto"
-	update_shop_info "TTD-golang-gin-test/module/update_name"
+	"TTD-golang-gin-test/module/get_shop/get_shop_repo"
+	"TTD-golang-gin-test/module/update_name"
 	"TTD-golang-gin-test/module/update_name/update_name_repo"
 	"TTD-golang-gin-test/provider/mongo_provider"
 	"github.com/gin-gonic/gin"
@@ -17,7 +18,10 @@ func UpdateNameController(c *gin.Context){
 	}
 	mongodb := mongo_provider.NewMongoProvider("", log)
 	repo:= update_name_repo.NewRepository(log,mongodb)
-	domain:= update_shop_info.NewDomain(log, repo)
+	getShopRepo:= get_shop_repo.NewRepository(log,mongodb)
+
+
+	domain:= update_shop_info.NewDomain(log, repo, getShopRepo)
 
 	if err := domain.UpdateName(c.Request.Context(),requestDto); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

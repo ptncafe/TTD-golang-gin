@@ -12,20 +12,31 @@ import (
 type domain struct {
 	Log                     *logrus.Logger
 	IUpdateShopInfoRepository imodule.IUpdateNameRepository
+	IGetShop imodule.IGetShopRepository
 }
 
 func NewDomain(log *logrus.Logger,
-	iUpdateShopInfoRepository imodule.IUpdateNameRepository,
+	updateShopInfoRepository imodule.IUpdateNameRepository,
+	getShop imodule.IGetShopRepository,
 	) *domain {
 	return &domain{
 		Log: log,
-		IUpdateShopInfoRepository: iUpdateShopInfoRepository,
+		IUpdateShopInfoRepository: updateShopInfoRepository,
+		IGetShop: getShop,
 	}
 }
 
 func(d domain) UpdateName (ctx context.Context,request dto.UpdateNameRequest)  (err error){
 	if err = d.validation(ctx, request); err != nil {
 		return err
+	}
+
+	shopEntity, err:= d.IGetShop.GetById(ctx,request.Id)
+	if err != nil {
+		return err
+	}
+	if shopEntity == nil {
+		return errors.NotFoundf(constant.UpdateName_Error_Message_Not_Found)
 	}
 	return err
 }
