@@ -91,11 +91,18 @@ func (suite *UpdateNameTestSuite)  TestUpdateName_Return_BadRequest_When_Name_Is
 }
 
 func (suite *UpdateNameTestSuite)  TestUpdateName_Return_BadRequest_When_Not_Found_Shop() {
-	//assert := assert.New(suite.T())
-	//request:= dto.UpdateNameRequest{Id: 1, Name: "TestUpdateName_Return_BadRequest_When_Name_Is_Long_TestUpdateName_Return_BadRequest_When_Name_Is_Long_When_Name_Is_Long_TestUpdateName_Return_BadRequest_When_Name_Is_Long_When_Name_Is_Long_TestUpdateName_Return_BadRequest_When_Name_Is_Long_When_Name_Is_Long_TestUpdateName_Return_BadRequest_When_Name_Is_Long"}
-	//
-	//
-	//dom := NewDomain(suite.log, suite.repo)
-
-
+	assert := assert.New(suite.T())
+	request:= dto.UpdateNameRequest{Id: 1, Name: "TestUpdateName_Return_BadRequest_When_Name_Is_Long_TestUpdateName_Return_BadRequest_When_Name_Is_Long_When_Name_Is_Long_TestUpdateName_Return_BadRequest_When_Name_Is_Long_When_Name_Is_Long_TestUpdateName_Return_BadRequest_When_Name_Is_Long_When_Name_Is_Long_TestUpdateName_Return_BadRequest_When_Name_Is_Long"}
+	suite.getShopRepository.GetById(suite.ctx, request.Id)
+	dom := NewDomain(suite.log,
+		suite.updateNameRepo,
+		suite.getShopRepository,
+	)
+	err := dom.UpdateName(suite.ctx, request)
+	assert.NotNil(err)
+	assert.Error(err)
+	if errors.IsBadRequest(err) == false{
+		assert.Fail("TestUpdateName_Return_BadRequest_When_Id_Zero IsBadRequest(err) == false")
+	}
+	assert.Errorf(err,constant.UpdateName_Error_Message_Name_Long)
 }
