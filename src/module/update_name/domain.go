@@ -9,11 +9,11 @@ import (
 
 type domain struct {
 	Log                     *logrus.Logger
-	IUpdateShopInfoRepository imodule.IUpdateShopInfoRepository
+	IUpdateShopInfoRepository imodule.IUpdateNameRepository
 }
 
 func NewDomain(log *logrus.Logger,
-	iUpdateShopInfoRepository imodule.IUpdateShopInfoRepository,
+	iUpdateShopInfoRepository imodule.IUpdateNameRepository,
 	) *domain {
 	return &domain{
 		Log: log,
@@ -22,5 +22,6 @@ func NewDomain(log *logrus.Logger,
 }
 
 func(d domain) UpdateName (ctx context.Context,request dto.UpdateNameRequest)  error{
+	
 	return nil
 }

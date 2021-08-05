@@ -17,9 +17,10 @@ func TestUpdateName (t *testing.T) {
 
 	request:= dto.UpdateNameRequest{}
 
-	repo := new(mocks.IUpdateShopInfoRepository)
+	repo := new(mocks.IUpdateNameRepository)
 	dom := NewDomain(log, repo)
 
 	err := dom.UpdateName(ctx, request)
 	assert.Nil(err)
+	assert.NoError(err)
 }

@@ -5,10 +5,10 @@ import (
 	"context"
 )
 
-type IUpdateShopInfoDomain interface {
+type IUpdateNameDomain interface {
 	UpdateName (ctx context.Context,request dto.UpdateNameRequest)  error
 }
 
-type IUpdateShopInfoRepository interface {
+type IUpdateNameRepository interface {
 	UpdateName (ctx context.Context,request dto.UpdateNameRequest)  error
 }
