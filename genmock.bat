@@ -1,0 +1,1 @@
+mockgen -source=interface/proxy/smc_api_proxy_interface/smc_api_proxy_interface.go -destination=mocks/proxy/smc_api_proxy_interface/smc_api_proxy_interface.go -package=mocks
