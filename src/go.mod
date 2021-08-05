@@ -2,6 +2,7 @@ module TTD-golang-gin-test
 
 require (
 	github.com/gin-gonic/gin v1.7.3 // indirect
+	github.com/juju/errors v0.0.0-20200330140219-3fe23663418f // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/sirupsen/logrus v1.8.1 // indirect
 	github.com/stretchr/testify v1.7.0 // indirect

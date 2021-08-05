@@ -1,26 +1,81 @@
 package update_shop_info
 
 import (
+	"TTD-golang-gin-test/common/constant"
+	"TTD-golang-gin-test/interface/imodule"
 	mocks "TTD-golang-gin-test/mocks/interface/imodule"
 	"TTD-golang-gin-test/model/dto"
 	"context"
+	"github.com/juju/errors"
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 	"testing"
 )
-
-///https://medium.com/@thegalang/testing-in-go-mocking-mvc-using-testify-and-mockery-c25344a88691
-func TestUpdateName (t *testing.T) {
-	assert := assert.New(t)
-	ctx:=context.Background()
-	log := logrus.New()
-
-	request:= dto.UpdateNameRequest{}
-
-	repo := new(mocks.IUpdateNameRepository)
-	dom := NewDomain(log, repo)
-
-	err := dom.UpdateName(ctx, request)
-	assert.Nil(err)
-	assert.NoError(err)
+//https://github.com/stretchr/testify
+//https://medium.com/@thegalang/testing-in-go-mocking-mvc-using-testify-and-mockery-c25344a88691
+type UpdateNameTestSuite struct {
+	suite.Suite
+	ctx context.Context
+	log *logrus.Logger
+	repo imodule.IUpdateNameRepository
 }
+func TestTestUpdateName(t *testing.T) {
+	suite.Run(t, new(UpdateNameTestSuite))
+}
+
+
+func (suite *UpdateNameTestSuite) SetupTest() {
+	suite.ctx=context.Background()
+	suite.log = logrus.New()
+	suite.repo =  new(mocks.IUpdateNameRepository)
+}
+
+func (suite *UpdateNameTestSuite)  TestUpdateName_Return_BadRequest_When_Id_Zero() {
+	assert := assert.New(suite.T())
+	request:= dto.UpdateNameRequest{Id: 0}
+
+	dom := NewDomain(suite.log, suite.repo)
+
+	err := dom.UpdateName(suite.ctx, request)
+	assert.NotNil(err)
+	assert.Error(err)
+	if errors.IsBadRequest(err) == false{
+		assert.Fail("TestUpdateName_Return_BadRequest_When_Id_Zero IsBadRequest(err) == false")
+	}
+	assert.Errorf(err,constant.UpdateName_Error_Message_Id)
+
+}
+
+
+func (suite *UpdateNameTestSuite)  TestUpdateName_Return_BadRequest_When_Name_Is_Short() {
+	assert := assert.New(suite.T())
+	request:= dto.UpdateNameRequest{Id: 1, Name: "A"}
+
+	dom := NewDomain(suite.log, suite.repo)
+
+	err := dom.UpdateName(suite.ctx, request)
+	assert.NotNil(err)
+	assert.Error(err)
+	if errors.IsBadRequest(err) == false{
+		assert.Fail("TestUpdateName_Return_BadRequest_When_Id_Zero IsBadRequest(err) == false")
+	}
+	assert.Errorf(err,constant.UpdateName_Error_Message_Name_Short)
+
+}
+
+func (suite *UpdateNameTestSuite)  TestUpdateName_Return_BadRequest_When_Name_Is_Long() {
+	assert := assert.New(suite.T())
+	request:= dto.UpdateNameRequest{Id: 1, Name: "TestUpdateName_Return_BadRequest_When_Name_Is_Long_TestUpdateName_Return_BadRequest_When_Name_Is_Long"}
+
+	dom := NewDomain(suite.log, suite.repo)
+
+	err := dom.UpdateName(suite.ctx, request)
+	assert.NotNil(err)
+	assert.Error(err)
+	if errors.IsBadRequest(err) == false{
+		assert.Fail("TestUpdateName_Return_BadRequest_When_Id_Zero IsBadRequest(err) == false")
+	}
+	assert.Errorf(err,constant.UpdateName_Error_Message_Name_Long)
+}
+
