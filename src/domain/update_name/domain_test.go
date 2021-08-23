@@ -74,7 +74,7 @@ func (suite *UpdateNameTestSuite) Test_Update_Success_Expect_Nil_Error(){
 
 //Should_ReturnBadRequest_When_IdZero
 func (suite *UpdateNameTestSuite)  Test_When_Id_Is_Zero_Expect_BadRequest() {
-	assert := assert.New(suite.T())
+	//assert := assert.New(suite.T())
 	request:= dto.UpdateNameRequest{Id: 1,
 		Name: "Test_When_Name_Is_Too_Long_Expect_BadRequest",
 		UpdatedUser: "unit_test_user",
@@ -87,17 +87,17 @@ func (suite *UpdateNameTestSuite)  Test_When_Id_Is_Zero_Expect_BadRequest() {
 	)
 
 	err := dom.UpdateName(suite.ctx, request)
-	assert.NotNil(err)
-	assert.Error(err)
+	suite.NotNil(err)
+	suite.Error(err)
 	if errors.IsBadRequest(err) == false{
-		assert.Fail("TestUpdateName_Return_BadRequest_When_Id_Zero IsBadRequest(err) == false")
+		suite.Fail("TestUpdateName_Return_BadRequest_When_Id_Zero IsBadRequest(err) == false")
 	}
-	assert.Errorf(err,constant.UpdateName_Error_Message_Id)
+	suite.Errorf(err,constant.UpdateName_Error_Message_Id)
 
 }
 
 func (suite *UpdateNameTestSuite)  Test_When_Name_Is_Too_Short_Expect_BadRequest() {
-	assert := assert.New(suite.T())
+	//assert := assert.New(suite.T())
 	request:= dto.UpdateNameRequest{Id: 1, Name: "A"}
 
 	dom := NewDomain(suite.log,
@@ -108,17 +108,17 @@ func (suite *UpdateNameTestSuite)  Test_When_Name_Is_Too_Short_Expect_BadRequest
 	)
 
 	err := dom.UpdateName(suite.ctx, request)
-	assert.NotNil(err)
-	assert.Error(err)
+	suite.NotNil(err)
+	suite.Error(err)
 	if errors.IsBadRequest(err) == false{
-		assert.Fail("TestUpdateName_Return_BadRequest_When_Id_Zero IsBadRequest(err) == false")
+		suite.Fail("TestUpdateName_Return_BadRequest_When_Id_Zero IsBadRequest(err) == false")
 	}
-	assert.Errorf(err,constant.UpdateName_Error_Message_Name_Short)
+	suite.Errorf(err,constant.UpdateName_Error_Message_Name_Short)
 
 }
 
 func (suite *UpdateNameTestSuite)  Test_When_Name_Is_Too_Long_Expect_BadRequest() {
-	assert := assert.New(suite.T())
+	//assert := assert.New(suite.T())
 	request:= dto.UpdateNameRequest{Id: 1,
 		Name: "Test_When_Name_Is_Too_Long_Expect_BadRequest",
 		UpdatedUser: "unit_test_user",
@@ -132,16 +132,16 @@ func (suite *UpdateNameTestSuite)  Test_When_Name_Is_Too_Long_Expect_BadRequest(
 	)
 
 	err := dom.UpdateName(suite.ctx, request)
-	assert.NotNil(err)
-	assert.Error(err)
+	suite.NotNil(err)
+	suite.Error(err)
 	if errors.IsBadRequest(err) == false{
-		assert.Fail("TestUpdateName_Return_BadRequest_When_Id_Zero IsBadRequest(err) == false")
+		suite.Fail("TestUpdateName_Return_BadRequest_When_Id_Zero IsBadRequest(err) == false")
 	}
-	assert.Errorf(err,constant.UpdateName_Error_Message_Name_Long)
+	suite.Errorf(err,constant.UpdateName_Error_Message_Name_Long)
 }
 
 func (suite *UpdateNameTestSuite)  Test_When_UpdatedUser_Is_Nil_Expect_BadRequest() {
-	assert := assert.New(suite.T())
+	//assert := assert.New(suite.T())
 	request:= dto.UpdateNameRequest{
 		Id: 1,
 		Name: "Test_When_Name_Is_Too_Long_Expect_BadRequest",
@@ -156,16 +156,16 @@ func (suite *UpdateNameTestSuite)  Test_When_UpdatedUser_Is_Nil_Expect_BadReques
 
 	)
 	err := dom.UpdateName(suite.ctx, request)
-	assert.NotNil(err)
-	assert.Error(err)
+	suite.NotNil(err)
+	suite.Error(err)
 	if errors.IsBadRequest(err) == false{
-		assert.Fail("TestUpdateName_Return_BadRequest_When_Id_Zero IsBadRequest(err) == false")
+		suite.Fail("TestUpdateName_Return_BadRequest_When_Id_Zero IsBadRequest(err) == false")
 	}
-	assert.Errorf(err,constant.UpdateName_Error_Message_UpdatedUser)
+	suite.Errorf(err,constant.UpdateName_Error_Message_UpdatedUser)
 }
 
 func (suite *UpdateNameTestSuite)  Test_When_Shop_Is_Not_Exist_Expect_NotFound() {
-	assert := assert.New(suite.T())
+	//assert := assert.New(suite.T())
 	request:= dto.UpdateNameRequest{Id: 1,
 		Name: "When_Shop_Not_Exist_Expect_NotFound",
 		UpdatedUser: "unit_test_user",
@@ -179,16 +179,16 @@ func (suite *UpdateNameTestSuite)  Test_When_Shop_Is_Not_Exist_Expect_NotFound()
 		suite.pubSubProxy,
 	)
 	err := dom.UpdateName(suite.ctx, request)
-	assert.NotNil(err)
-	assert.Error(err)
+	suite.NotNil(err)
+	suite.Error(err)
 	if errors.IsNotFound(err) == false{
-		assert.Fail("Test_When_Shop_Not_Exist_Expect_NotFound IsNotFound(err) == false")
+		suite.Fail("Test_When_Shop_Not_Exist_Expect_NotFound IsNotFound(err) == false")
 	}
-	assert.Errorf(err,constant.UpdateName_Error_Message_Name_Long)
+	suite.Errorf(err,constant.UpdateName_Error_Message_Name_Long)
 }
 
 func (suite *UpdateNameTestSuite)  Test_When_Name_Is_Duplicate_Expect_BadRequest() {
-	assert := assert.New(suite.T())
+	//assert := assert.New(suite.T())
 	request:= dto.UpdateNameRequest{Id: 1,
 		Name: "Test_When_Name_Is_Too_Long_Expect_BadRequest",
 		UpdatedUser: "unit_test_user",
@@ -202,10 +202,10 @@ func (suite *UpdateNameTestSuite)  Test_When_Name_Is_Duplicate_Expect_BadRequest
 	)
 
 	err := dom.UpdateName(suite.ctx, request)
-	assert.NotNil(err)
-	assert.Error(err)
+	suite.NotNil(err)
+	suite.Error(err)
 	if errors.IsBadRequest(err) == false{
-		assert.Fail("TestUpdateName_Return_BadRequest_When_Id_Zero IsBadRequest(err) == false")
+		suite.Fail("TestUpdateName_Return_BadRequest_When_Id_Zero IsBadRequest(err) == false")
 	}
-	assert.Errorf(err,constant.UpdateName_Error_Message_Name_Long)
+	suite.Errorf(err,constant.UpdateName_Error_Message_Name_Long)
 }
