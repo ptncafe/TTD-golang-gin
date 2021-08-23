@@ -1,7 +1,7 @@
-package update_name_repo
+package get_shop_repo
 
 import (
-	"TTD-golang-gin-test/model/dto"
+	entity2 "TTD-golang-gin-test/entity"
 	"TTD-golang-gin-test/provider/mongo_provider"
 	"context"
 	"github.com/sirupsen/logrus"
@@ -22,6 +22,6 @@ func NewRepository(
 	}
 }
 
-func (r repo) UpdateName (ctx context.Context,request dto.UpdateNameRequest)  error{
-	return nil
+func (r repo) GetById (ctx context.Context, id int)  (*entity2.Shop,error){
+	return nil,nil
 }
