@@ -1,7 +1,7 @@
 package get_shop_repo
 
 import (
-	entity2 "TTD-golang-gin-test/entity"
+	 "TTD-golang-gin-test/entity"
 	"TTD-golang-gin-test/provider/mongo_provider"
 	"context"
 	"github.com/sirupsen/logrus"
@@ -22,6 +22,13 @@ func NewRepository(
 	}
 }
 
-func (r repo) GetById (ctx context.Context, id int)  (*entity2.Shop,error){
+func (r repo) GetById (ctx context.Context, id int)  (*entity.Shop,error){
+	return nil,nil
+}
+
+func (r repo) GetByName (ctx context.Context, name string)  (*entity.Shop,error){
+	return nil,nil
+}
+func GetByCode (ctx context.Context, code string)  (*entity.Shop,error){
 	return nil,nil
 }
