@@ -8,7 +8,6 @@ import (
 	"TTD-golang-gin-test/interface/irepository"
 	mocksProxy "TTD-golang-gin-test/mocks/interface/iproxy"
 	mocksRepo "TTD-golang-gin-test/mocks/interface/irepository"
-	"github.com/stretchr/testify/assert"
 	"time"
 
 	"context"
@@ -35,7 +34,6 @@ type UpdateNameTestSuite struct {
 func TestUpdateName(t *testing.T) {
 	suite.Run(t, new(UpdateNameTestSuite))
 }
-
 func (suite *UpdateNameTestSuite) SetupTest() {
 	suite.ctx=context.Background()
 	suite.log = logrus.New()
@@ -57,7 +55,6 @@ func (suite *UpdateNameTestSuite) SetupTest() {
 
 //Should_ReturnBadRequest_When_IdZero
 func (suite *UpdateNameTestSuite)  Test_When_Id_Is_Zero_Expect_BadRequest() {
-	//assert := assert.New(suite.T())
 	request:= dto.UpdateNameRequest{Id: 1,
 		Name: "Test_When_Name_Is_Too_Long_Expect_BadRequest",
 		UpdatedUser: "unit_test_user",
@@ -80,7 +77,6 @@ func (suite *UpdateNameTestSuite)  Test_When_Id_Is_Zero_Expect_BadRequest() {
 }
 
 func (suite *UpdateNameTestSuite)  Test_When_Name_Is_Too_Short_Expect_BadRequest() {
-	//assert := assert.New(suite.T())
 	request:= dto.UpdateNameRequest{Id: 1, Name: "A"}
 
 	dom := NewDomain(suite.log,
@@ -101,7 +97,6 @@ func (suite *UpdateNameTestSuite)  Test_When_Name_Is_Too_Short_Expect_BadRequest
 }
 
 func (suite *UpdateNameTestSuite)  Test_When_Name_Is_Too_Long_Expect_BadRequest() {
-	//assert := assert.New(suite.T())
 	request:= dto.UpdateNameRequest{Id: 1,
 		Name: "Test_When_Name_Is_Too_Long_Expect_BadRequest",
 		UpdatedUser: "unit_test_user",
@@ -124,7 +119,6 @@ func (suite *UpdateNameTestSuite)  Test_When_Name_Is_Too_Long_Expect_BadRequest(
 }
 
 func (suite *UpdateNameTestSuite)  Test_When_UpdatedUser_Is_Nil_Expect_BadRequest() {
-	//assert := assert.New(suite.T())
 	request:= dto.UpdateNameRequest{
 		Id: 1,
 		Name: "Test_When_Name_Is_Too_Long_Expect_BadRequest",
@@ -148,7 +142,6 @@ func (suite *UpdateNameTestSuite)  Test_When_UpdatedUser_Is_Nil_Expect_BadReques
 }
 
 func (suite *UpdateNameTestSuite)  Test_When_Shop_Is_Not_Exist_Expect_NotFound() {
-	//assert := assert.New(suite.T())
 	request:= dto.UpdateNameRequest{Id: 1,
 		Name: "When_Shop_Not_Exist_Expect_NotFound",
 		UpdatedUser: "unit_test_user",
@@ -171,19 +164,16 @@ func (suite *UpdateNameTestSuite)  Test_When_Shop_Is_Not_Exist_Expect_NotFound()
 }
 
 func (suite *UpdateNameTestSuite)  Test_When_Name_Is_Duplicate_Expect_BadRequest() {
-	//assert := assert.New(suite.T())
 	request:= dto.UpdateNameRequest{Id: 1,
 		Name: "Test_When_Name_Is_Too_Long_Expect_BadRequest",
 		UpdatedUser: "unit_test_user",
 	}
-
 	dom := NewDomain(suite.log,
 		suite.updateNameRepo,
 		suite.getShopRepository,
 		suite.pubSubProxy,
 
 	)
-
 	err := dom.UpdateName(suite.ctx, request)
 	suite.NotNil(err)
 	suite.Error(err)
@@ -194,19 +184,17 @@ func (suite *UpdateNameTestSuite)  Test_When_Name_Is_Duplicate_Expect_BadRequest
 }
 
 func (suite *UpdateNameTestSuite) Test_Update_Success_Expect_Nil_Error(){
-	assert := assert.New(suite.T())
 	request:= dto.UpdateNameRequest{Id: 0}
-
 	dom := NewDomain(suite.log,
 		suite.updateNameRepo,
 		suite.getShopRepository,
 		suite.pubSubProxy,
 	)
 	err := dom.UpdateName(suite.ctx, request)
-	assert.NotNil(err)
-	assert.Error(err)
+	suite.NotNil(err)
+	suite.Error(err)
 	if errors.IsBadRequest(err) == false{
-		assert.Fail("TestUpdateName_Return_BadRequest_When_Id_Zero IsBadRequest(err) == false")
+		suite.Fail("TestUpdateName_Return_BadRequest_When_Id_Zero IsBadRequest(err) == false")
 	}
-	assert.Errorf(err,constant.UpdateName_Error_Message_Id)
+	suite.Errorf(err,constant.UpdateName_Error_Message_Id)
 }
