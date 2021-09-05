@@ -3,7 +3,7 @@
 package mocks
 
 import (
-	dto2 "TTD-golang-gin-test/dto"
+	dto "TTD-golang-gin-test/dto"
 	context "context"
 
 	mock "github.com/stretchr/testify/mock"
@@ -15,11 +15,11 @@ type IUpdateNameRepository struct {
 }
 
 // UpdateName provides a mock function with given fields: ctx, request
-func (_m *IUpdateNameRepository) UpdateName(ctx context.Context, request dto2.UpdateNameRequest) error {
+func (_m *IUpdateNameRepository) UpdateName(ctx context.Context, request dto.UpdateNameRequest) error {
 	ret := _m.Called(ctx, request)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, dto2.UpdateNameRequest) error); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, dto.UpdateNameRequest) error); ok {
 		r0 = rf(ctx, request)
 	} else {
 		r0 = ret.Error(0)

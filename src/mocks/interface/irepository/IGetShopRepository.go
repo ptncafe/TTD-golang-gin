@@ -3,7 +3,7 @@
 package mocks
 
 import (
-	entity2 "TTD-golang-gin-test/entity"
+	entity "TTD-golang-gin-test/entity"
 	context "context"
 
 	mock "github.com/stretchr/testify/mock"
@@ -14,22 +14,68 @@ type IGetShopRepository struct {
 	mock.Mock
 }
 
+// GetByCode provides a mock function with given fields: ctx, code
+func (_m *IGetShopRepository) GetByCode(ctx context.Context, code string) (*entity.Shop, error) {
+	ret := _m.Called(ctx, code)
+
+	var r0 *entity.Shop
+	if rf, ok := ret.Get(0).(func(context.Context, string) *entity.Shop); ok {
+		r0 = rf(ctx, code)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entity.Shop)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context, string) error); ok {
+		r1 = rf(ctx, code)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // GetById provides a mock function with given fields: ctx, id
-func (_m *IGetShopRepository) GetById(ctx context.Context, id int) (*entity2.Shop, error) {
+func (_m *IGetShopRepository) GetById(ctx context.Context, id int) (*entity.Shop, error) {
 	ret := _m.Called(ctx, id)
 
-	var r0 *entity2.Shop
-	if rf, ok := ret.Get(0).(func(context.Context, int) *entity2.Shop); ok {
+	var r0 *entity.Shop
+	if rf, ok := ret.Get(0).(func(context.Context, int) *entity.Shop); ok {
 		r0 = rf(ctx, id)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*entity2.Shop)
+			r0 = ret.Get(0).(*entity.Shop)
 		}
 	}
 
 	var r1 error
 	if rf, ok := ret.Get(1).(func(context.Context, int) error); ok {
 		r1 = rf(ctx, id)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// GetByName provides a mock function with given fields: ctx, name
+func (_m *IGetShopRepository) GetByName(ctx context.Context, name string) (*entity.Shop, error) {
+	ret := _m.Called(ctx, name)
+
+	var r0 *entity.Shop
+	if rf, ok := ret.Get(0).(func(context.Context, string) *entity.Shop); ok {
+		r0 = rf(ctx, name)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entity.Shop)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context, string) error); ok {
+		r1 = rf(ctx, name)
 	} else {
 		r1 = ret.Error(1)
 	}

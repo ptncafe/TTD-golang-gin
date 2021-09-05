@@ -3,7 +3,8 @@
 package mocks
 
 import (
-	entity2 "TTD-golang-gin-test/entity"
+	entity "TTD-golang-gin-test/entity"
+
 	mock "github.com/stretchr/testify/mock"
 )
 
@@ -13,11 +14,11 @@ type IPubSubProxy struct {
 }
 
 // PubShop provides a mock function with given fields: shop
-func (_m *IPubSubProxy) PubShop(shop entity2.Shop) error {
+func (_m *IPubSubProxy) PubShop(shop entity.Shop) error {
 	ret := _m.Called(shop)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(entity2.Shop) error); ok {
+	if rf, ok := ret.Get(0).(func(entity.Shop) error); ok {
 		r0 = rf(shop)
 	} else {
 		r0 = ret.Error(0)

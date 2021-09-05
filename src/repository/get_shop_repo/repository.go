@@ -29,6 +29,6 @@ func (r repo) GetById (ctx context.Context, id int)  (*entity.Shop,error){
 func (r repo) GetByName (ctx context.Context, name string)  (*entity.Shop,error){
 	return nil,nil
 }
-func GetByCode (ctx context.Context, code string)  (*entity.Shop,error){
+func (r repo)  GetByCode (ctx context.Context, code string)  (*entity.Shop,error){
 	return nil,nil
 }
