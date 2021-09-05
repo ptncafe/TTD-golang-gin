@@ -39,8 +39,21 @@ func(d domain) UpdateName (ctx context.Context,request dto2.UpdateNameRequest)  
 	if err != nil {
 		return err
 	}
+
 	if shopEntity == nil {
 		return errors.NotFoundf(constant.UpdateName_Error_Message_Not_Found)
+	}
+
+	dupShop, err:= d.IGetShop.GetByName(ctx,request.Name)
+	if err != nil {
+		return err
+	}
+	if dupShop != nil {
+		return errors.BadRequestf(constant.UpdateName_Error_Message_Dup_Name)
+	}
+	err = d.IUpdateShopInfoRepository.UpdateName(ctx,request)
+	if err != nil {
+		return err
 	}
 	return err
 }
@@ -54,6 +67,9 @@ func (d domain) validation(ctx context.Context,request dto2.UpdateNameRequest) e
 	}
 	if len(request.Name) > 50 {
 		return errors.BadRequestf(constant.UpdateName_Error_Message_Name_Long)
+	}
+	if len(request.UpdatedUser) <= 0 {
+		return errors.BadRequestf(constant.UpdateName_Error_Message_UpdatedUser)
 	}
 	return nil
 }

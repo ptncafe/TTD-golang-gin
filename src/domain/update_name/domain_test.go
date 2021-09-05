@@ -16,6 +16,7 @@ import (
 	"github.com/stretchr/testify/suite"
 	"testing"
 )
+
 var phoneDefault = "0900000001"
 var createdDateDefault = time.Date(2021, time.Month(2), 21, 1, 10, 30, 0, time.UTC)
 var updatedDateDefault = time.Date(2021, time.Month(5), 21, 1, 10, 30, 0, time.UTC)
@@ -31,32 +32,33 @@ type UpdateNameTestSuite struct {
 	pubSubProxy       proxy.IPubSubProxy
 	shopEntityDefault entity.Shop
 }
+
 func TestUpdateName(t *testing.T) {
 	suite.Run(t, new(UpdateNameTestSuite))
 }
 func (suite *UpdateNameTestSuite) SetupTest() {
-	suite.ctx=context.Background()
+	suite.ctx = context.Background()
 	suite.log = logrus.New()
-	suite.updateNameRepo =  new(mocksRepo.IUpdateNameRepository)
-	suite.getShopRepository =  new(mocksRepo.IGetShopRepository)
+	suite.updateNameRepo = new(mocksRepo.IUpdateNameRepository)
+	suite.getShopRepository = new(mocksRepo.IGetShopRepository)
 	suite.pubSubProxy = new(mocksProxy.IPubSubProxy)
 	suite.shopEntityDefault = entity.Shop{Id: 1,
-		Name: "shop test name",
-		Code: "shop_test_name",
-		Mobile: &phoneDefault,
-		Phone: &phoneDefault,
+		Name:        "shop test name",
+		Code:        "shop_test_name",
+		Mobile:      &phoneDefault,
+		Phone:       &phoneDefault,
 		CreatedDate: &createdDateDefault,
 		CreatedUser: phoneDefault,
-		UpdatedDate:&updatedDateDefault,
+		UpdatedDate: &updatedDateDefault,
 		UpdatedUser: phoneDefault,
-		SystemUrl:"shop_test_name",
+		SystemUrl:   "shop_test_name",
 	}
 }
 
 //Should_ReturnBadRequest_When_IdZero
-func (suite *UpdateNameTestSuite)  Test_When_Id_Is_Zero_Expect_BadRequest() {
-	request:= dto.UpdateNameRequest{Id: 1,
-		Name: "Test_When_Name_Is_Too_Long_Expect_BadRequest",
+func (suite *UpdateNameTestSuite) Test_When_Id_Is_Zero_Expect_BadRequest() {
+	request := dto.UpdateNameRequest{Id: 0,
+		Name:        "Test_When_Id_Is_Zero_Expect_BadRequest",
 		UpdatedUser: "unit_test_user",
 	}
 
@@ -69,15 +71,15 @@ func (suite *UpdateNameTestSuite)  Test_When_Id_Is_Zero_Expect_BadRequest() {
 	err := dom.UpdateName(suite.ctx, request)
 	suite.NotNil(err)
 	suite.Error(err)
-	if errors.IsBadRequest(err) == false{
+	if errors.IsBadRequest(err) == false {
 		suite.Fail("Test_When_Id_Is_Zero_Expect_BadRequest IsBadRequest(err) == false")
 	}
-	suite.Errorf(err,constant.UpdateName_Error_Message_Id)
+	suite.Errorf(err, constant.UpdateName_Error_Message_Id)
 
 }
 
-func (suite *UpdateNameTestSuite)  Test_When_Name_Is_Too_Short_Expect_BadRequest() {
-	request:= dto.UpdateNameRequest{Id: 1, Name: "A"}
+func (suite *UpdateNameTestSuite) Test_When_Name_Is_Too_Short_Expect_BadRequest() {
+	request := dto.UpdateNameRequest{Id: 1, Name: "A"}
 
 	dom := NewDomain(suite.log,
 		suite.updateNameRepo,
@@ -88,16 +90,16 @@ func (suite *UpdateNameTestSuite)  Test_When_Name_Is_Too_Short_Expect_BadRequest
 	err := dom.UpdateName(suite.ctx, request)
 	suite.NotNil(err)
 	suite.Error(err)
-	if errors.IsBadRequest(err) == false{
+	if errors.IsBadRequest(err) == false {
 		suite.Fail("Test_When_Name_Is_Too_Short_Expect_BadRequest IsBadRequest(err) == false")
 	}
-	suite.Errorf(err,constant.UpdateName_Error_Message_Name_Short)
+	suite.Errorf(err, constant.UpdateName_Error_Message_Name_Short)
 
 }
 
-func (suite *UpdateNameTestSuite)  Test_When_Name_Is_Too_Long_Expect_BadRequest() {
-	request:= dto.UpdateNameRequest{Id: 1,
-		Name: "Test_When_Name_Is_Too_Long_Expect_BadRequest",
+func (suite *UpdateNameTestSuite) Test_When_Name_Is_Too_Long_Expect_BadRequest() {
+	request := dto.UpdateNameRequest{Id: 1,
+		Name:        "Test_When_Name_Is_Too_Long_Expect_BadRequest_Test_When_Name_Is_Too_Long_Expect_BadRequest",
 		UpdatedUser: "unit_test_user",
 	}
 
@@ -110,19 +112,19 @@ func (suite *UpdateNameTestSuite)  Test_When_Name_Is_Too_Long_Expect_BadRequest(
 	err := dom.UpdateName(suite.ctx, request)
 	suite.NotNil(err)
 	suite.Error(err)
-	if errors.IsBadRequest(err) == false{
+	if errors.IsBadRequest(err) == false {
 		suite.Fail("Test_When_Name_Is_Too_Long_Expect_BadRequest IsBadRequest(err) == false")
 	}
-	suite.Errorf(err,constant.UpdateName_Error_Message_Name_Long)
+	suite.Errorf(err, constant.UpdateName_Error_Message_Name_Long)
 }
 
-func (suite *UpdateNameTestSuite)  Test_When_UpdatedUser_Is_Nil_Expect_BadRequest() {
-	request:= dto.UpdateNameRequest{
-		Id: 1,
-		Name: "Test_When_Name_Is_Too_Long_Expect_BadRequest",
+func (suite *UpdateNameTestSuite) Test_When_UpdatedUser_Is_Nil_Expect_BadRequest() {
+	request := dto.UpdateNameRequest{
+		Id:          1,
+		Name:        "Test_When_Name_Is_Too_Long_Expect_BadRequest",
 		UpdatedUser: "",
 	}
-	mockGetShopRepo :=new(mocksRepo.IGetShopRepository)
+	mockGetShopRepo := new(mocksRepo.IGetShopRepository)
 	mockGetShopRepo.On("GetById", suite.ctx, request.Id).Return(nil, nil)
 	dom := NewDomain(suite.log,
 		suite.updateNameRepo,
@@ -132,19 +134,19 @@ func (suite *UpdateNameTestSuite)  Test_When_UpdatedUser_Is_Nil_Expect_BadReques
 	err := dom.UpdateName(suite.ctx, request)
 	suite.NotNil(err)
 	suite.Error(err)
-	if errors.IsBadRequest(err) == false{
+	if errors.IsBadRequest(err) == false {
 		suite.Fail("Test_When_UpdatedUser_Is_Nil_Expect_BadRequest IsBadRequest(err) == false")
 	}
-	suite.Errorf(err,constant.UpdateName_Error_Message_UpdatedUser)
+	suite.Errorf(err, constant.UpdateName_Error_Message_UpdatedUser)
 }
 
-func (suite *UpdateNameTestSuite)  Test_When_Shop_Is_Not_Exist_Expect_NotFound() {
-	request:= dto.UpdateNameRequest{Id: 1,
-		Name: "When_Shop_Not_Exist_Expect_NotFound",
+func (suite *UpdateNameTestSuite) Test_When_Shop_Is_Not_Exist_Expect_NotFound() {
+	request := dto.UpdateNameRequest{Id: 1,
+		Name:        "When_Shop_Not_Exist_Expect_NotFound",
 		UpdatedUser: "unit_test_user",
 	}
 
-	mockGetShopRepo :=new(mocksRepo.IGetShopRepository)
+	mockGetShopRepo := new(mocksRepo.IGetShopRepository)
 	mockGetShopRepo.On("GetById", suite.ctx, request.Id).Return(nil, nil)
 	dom := NewDomain(suite.log,
 		suite.updateNameRepo,
@@ -154,43 +156,53 @@ func (suite *UpdateNameTestSuite)  Test_When_Shop_Is_Not_Exist_Expect_NotFound()
 	err := dom.UpdateName(suite.ctx, request)
 	suite.NotNil(err)
 	suite.Error(err)
-	if errors.IsNotFound(err) == false{
+	if errors.IsNotFound(err) == false {
 		suite.Fail("Test_When_Shop_Is_Not_Exist_Expect_NotFound IsNotFound(err) == false")
 	}
-	suite.Errorf(err,constant.UpdateName_Error_Message_Name_Long)
+	suite.Errorf(err, constant.UpdateName_Error_Message_Name_Long)
 }
 
-func (suite *UpdateNameTestSuite)  Test_When_Name_Is_Duplicate_Expect_BadRequest() {
-	request:= dto.UpdateNameRequest{Id: 1,
-		Name: "Test_When_Name_Is_Too_Long_Expect_BadRequest",
+func (suite *UpdateNameTestSuite) Test_When_Name_Is_Duplicate_Expect_BadRequest() {
+	request := dto.UpdateNameRequest{Id: 1,
+		Name:        "Test_When_Name_Is_Duplicate_Expect_BadRequest",
 		UpdatedUser: "unit_test_user",
 	}
+	mockGetShopRepo := new(mocksRepo.IGetShopRepository)
+	mockGetShopRepo.On("GetById", suite.ctx, request.Id).Return(&suite.shopEntityDefault, nil)
+	mockGetShopRepo.On("GetByName", suite.ctx, request.Name).Return(&suite.shopEntityDefault, nil)
+
 	dom := NewDomain(suite.log,
 		suite.updateNameRepo,
-		suite.getShopRepository,
+		mockGetShopRepo,
 		suite.pubSubProxy,
 	)
 	err := dom.UpdateName(suite.ctx, request)
 	suite.NotNil(err)
 	suite.Error(err)
-	if errors.IsBadRequest(err) == false{
+	if errors.IsBadRequest(err) == false {
 		suite.Fail("Test_When_Name_Is_Duplicate_Expect_BadRequest IsBadRequest(err) == false")
 	}
-	suite.Errorf(err,constant.UpdateName_Error_Message_Name_Long)
+	suite.Errorf(err, constant.UpdateName_Error_Message_Name_Long)
 }
 
-func (suite *UpdateNameTestSuite) Test_Update_Success_Expect_Nil_Error(){
-	request:= dto.UpdateNameRequest{Id: 0}
+func (suite *UpdateNameTestSuite) Test_Update_Success_Expect_Nil_Error() {
+	request := dto.UpdateNameRequest{Id: 1,
+		Name:        "Test_Update_Success_Expect_Nil_Error",
+		UpdatedUser: "unit_test_user",
+	}
+	mockGetShopRepo := new(mocksRepo.IGetShopRepository)
+	mockGetShopRepo.On("GetById", suite.ctx, request.Id).Return(&suite.shopEntityDefault, nil)
+	mockGetShopRepo.On("GetByName", suite.ctx, request.Name).Return(nil, nil)
+
+	mockUpdateNameRepo := new(mocksRepo.IUpdateNameRepository)
+	mockUpdateNameRepo.On("UpdateName", suite.ctx, request).Return(nil)
+
 	dom := NewDomain(suite.log,
-		suite.updateNameRepo,
-		suite.getShopRepository,
+		mockUpdateNameRepo,
+		mockGetShopRepo,
 		suite.pubSubProxy,
 	)
 	err := dom.UpdateName(suite.ctx, request)
-	suite.NotNil(err)
-	suite.Error(err)
-	if errors.IsBadRequest(err) == false{
-		suite.Fail("Test_Update_Success_Expect_Nil_Error IsBadRequest(err) == false")
-	}
-	suite.Errorf(err,constant.UpdateName_Error_Message_Id)
+	suite.Nil(err)
+	suite.NoError(err)
 }
