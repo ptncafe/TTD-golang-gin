@@ -55,7 +55,6 @@ func (suite *UpdateNameTestSuite) SetupTest() {
 	}
 }
 
-//Should_ReturnBadRequest_When_IdZero
 func (suite *UpdateNameTestSuite) Test_When_Id_Is_Zero_Expect_BadRequest() {
 	request := dto.UpdateNameRequest{Id: 0,
 		Name:        "Test_When_Id_Is_Zero_Expect_BadRequest",
