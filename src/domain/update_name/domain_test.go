@@ -8,12 +8,12 @@ import (
 	"TTD-golang-gin-test/interface/irepository"
 	mocksProxy "TTD-golang-gin-test/mocks/interface/iproxy"
 	mocksRepo "TTD-golang-gin-test/mocks/interface/irepository"
+	"github.com/stretchr/testify/assert"
 	"time"
 
 	"context"
 	"github.com/juju/errors"
 	"github.com/sirupsen/logrus"
-	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 	"testing"
 )
@@ -35,6 +35,7 @@ type UpdateNameTestSuite struct {
 func TestUpdateName(t *testing.T) {
 	suite.Run(t, new(UpdateNameTestSuite))
 }
+
 func (suite *UpdateNameTestSuite) SetupTest() {
 	suite.ctx=context.Background()
 	suite.log = logrus.New()
@@ -52,24 +53,6 @@ func (suite *UpdateNameTestSuite) SetupTest() {
 		UpdatedUser: phoneDefault,
 		SystemUrl:"shop_test_name",
 	}
-}
-
-func (suite *UpdateNameTestSuite) Test_Update_Success_Expect_Nil_Error(){
-	assert := assert.New(suite.T())
-	request:= dto.UpdateNameRequest{Id: 0}
-
-	dom := NewDomain(suite.log,
-		suite.updateNameRepo,
-		suite.getShopRepository,
-		suite.pubSubProxy,
-	)
-	err := dom.UpdateName(suite.ctx, request)
-	assert.NotNil(err)
-	assert.Error(err)
-	if errors.IsBadRequest(err) == false{
-		assert.Fail("TestUpdateName_Return_BadRequest_When_Id_Zero IsBadRequest(err) == false")
-	}
-	assert.Errorf(err,constant.UpdateName_Error_Message_Id)
 }
 
 //Should_ReturnBadRequest_When_IdZero
@@ -208,4 +191,22 @@ func (suite *UpdateNameTestSuite)  Test_When_Name_Is_Duplicate_Expect_BadRequest
 		suite.Fail("TestUpdateName_Return_BadRequest_When_Id_Zero IsBadRequest(err) == false")
 	}
 	suite.Errorf(err,constant.UpdateName_Error_Message_Name_Long)
+}
+
+func (suite *UpdateNameTestSuite) Test_Update_Success_Expect_Nil_Error(){
+	assert := assert.New(suite.T())
+	request:= dto.UpdateNameRequest{Id: 0}
+
+	dom := NewDomain(suite.log,
+		suite.updateNameRepo,
+		suite.getShopRepository,
+		suite.pubSubProxy,
+	)
+	err := dom.UpdateName(suite.ctx, request)
+	assert.NotNil(err)
+	assert.Error(err)
+	if errors.IsBadRequest(err) == false{
+		assert.Fail("TestUpdateName_Return_BadRequest_When_Id_Zero IsBadRequest(err) == false")
+	}
+	assert.Errorf(err,constant.UpdateName_Error_Message_Id)
 }
