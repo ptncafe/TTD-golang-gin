@@ -83,7 +83,6 @@ func (suite *UpdateNameTestSuite)  Test_When_Name_Is_Too_Short_Expect_BadRequest
 		suite.updateNameRepo,
 		suite.getShopRepository,
 		suite.pubSubProxy,
-
 	)
 
 	err := dom.UpdateName(suite.ctx, request)
@@ -106,7 +105,6 @@ func (suite *UpdateNameTestSuite)  Test_When_Name_Is_Too_Long_Expect_BadRequest(
 		suite.updateNameRepo,
 		suite.getShopRepository,
 		suite.pubSubProxy,
-
 	)
 
 	err := dom.UpdateName(suite.ctx, request)
@@ -130,7 +128,6 @@ func (suite *UpdateNameTestSuite)  Test_When_UpdatedUser_Is_Nil_Expect_BadReques
 		suite.updateNameRepo,
 		mockGetShopRepo,
 		suite.pubSubProxy,
-
 	)
 	err := dom.UpdateName(suite.ctx, request)
 	suite.NotNil(err)
@@ -172,7 +169,6 @@ func (suite *UpdateNameTestSuite)  Test_When_Name_Is_Duplicate_Expect_BadRequest
 		suite.updateNameRepo,
 		suite.getShopRepository,
 		suite.pubSubProxy,
-
 	)
 	err := dom.UpdateName(suite.ctx, request)
 	suite.NotNil(err)
