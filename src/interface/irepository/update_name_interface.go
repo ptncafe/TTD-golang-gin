@@ -1,11 +1,11 @@
 package irepository
 
 import (
-	dto2 "TTD-golang-gin-test/dto"
+	"TTD-golang-gin-test/entity"
 	"context"
 )
 
 
 type IUpdateNameRepository interface {
-	UpdateName (ctx context.Context,request dto2.UpdateNameRequest)  error
+	UpdateName (ctx context.Context,request entity.Shop)  error
 }

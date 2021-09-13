@@ -8,10 +8,10 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/sirupsen/logrus v1.8.1
 	github.com/spf13/cobra v1.2.1 // indirect
-	github.com/stretchr/testify v1.7.0 // indirect
+	github.com/stretchr/testify v1.7.0
 	github.com/vakenbolt/go-test-report v0.9.3 // indirect
 	github.com/vektra/mockery v1.1.2 // indirect
-	github.com/vektra/mockery/v2 v2.9.0 // indirect
+	github.com/vektra/mockery/v2 v2.9.2 // indirect
 	go.mongodb.org/mongo-driver v1.7.1
 )
 

@@ -2,7 +2,7 @@ package update_shop_info
 
 import (
 	"TTD-golang-gin-test/common/constant"
-	dto2 "TTD-golang-gin-test/dto"
+	"TTD-golang-gin-test/dto"
 	"TTD-golang-gin-test/interface/iproxy"
 	"TTD-golang-gin-test/interface/irepository"
 	"context"
@@ -30,7 +30,7 @@ func NewDomain(log *logrus.Logger,
 	}
 }
 
-func(d domain) UpdateName (ctx context.Context,request dto2.UpdateNameRequest)  (err error){
+func(d domain) UpdateName (ctx context.Context,request dto.UpdateNameRequest)  (err error){
 	if err = d.validation(ctx, request); err != nil {
 		return err
 	}
@@ -51,14 +51,26 @@ func(d domain) UpdateName (ctx context.Context,request dto2.UpdateNameRequest)  
 	if dupShop != nil {
 		return errors.BadRequestf(constant.UpdateName_Error_Message_Dup_Name)
 	}
-	err = d.IUpdateShopInfoRepository.UpdateName(ctx,request)
+
+	shopEntity.Code = request.Code
+	shopEntity.Name = request.Name
+	shopEntity.UpdatedUser = request.UpdatedUser
+	shopEntity.UpdatedDate = request.UpdatedDate
+
+
+	err = d.IUpdateShopInfoRepository.UpdateName(ctx,*shopEntity)
 	if err != nil {
 		return err
 	}
-	return err
+
+	err = d.IPubSubProxy.PubShop(*shopEntity)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
-func (d domain) validation(ctx context.Context,request dto2.UpdateNameRequest) error {
+func (d domain) validation(ctx context.Context,request dto.UpdateNameRequest) error {
 	if request.Id <= 0 {
 		return errors.BadRequestf(constant.UpdateName_Error_Message_Id)
 	}
