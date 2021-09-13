@@ -184,6 +184,49 @@ func (suite *UpdateNameTestSuite) Test_When_Name_Is_Duplicate_Expect_BadRequest(
 	suite.Errorf(err, constant.UpdateName_Error_Message_Name_Long)
 }
 
+func (suite *UpdateNameTestSuite) Test_Get_Id_Fail_Expect_Error() {
+	request := dto.UpdateNameRequest{Id: 1,
+		Name:        "Test_Get_Id_Fail_Expect_Error",
+		UpdatedUser: "unit_test_user",
+	}
+
+	mockGetShopRepo := new(mocksRepo.IGetShopRepository)
+	mockGetShopRepo.On("GetById", suite.ctx, request.Id).Return(nil, errors.New("Error"))
+
+
+	dom := NewDomain(suite.log,
+		suite.updateNameRepo,
+		mockGetShopRepo,
+		suite.pubSubProxy,
+	)
+	err := dom.UpdateName(suite.ctx, request)
+	suite.NotNil(err)
+	suite.Error(err)
+}
+func (suite *UpdateNameTestSuite) Test_Get_Name_Fail_Expect_Error() {
+	request := dto.UpdateNameRequest{Id: 1,
+		Name:        "Test_Get_Name_Fail_Expect_Error",
+		UpdatedUser: "unit_test_user",
+	}
+	shopEntity := suite.shopEntityDefault
+
+	mockGetShopRepo := new(mocksRepo.IGetShopRepository)
+	mockGetShopRepo.On("GetById", suite.ctx, request.Id).Return(&shopEntity, nil)
+	mockGetShopRepo.On("GetByName", suite.ctx, request.Name).Return(nil, errors.New("Error"))
+
+
+	dom := NewDomain(suite.log,
+		suite.updateNameRepo,
+		mockGetShopRepo,
+		suite.pubSubProxy,
+	)
+	err := dom.UpdateName(suite.ctx, request)
+	suite.NotNil(err)
+	suite.Error(err)
+}
+
+
+
 func (suite *UpdateNameTestSuite) Test_Update_DB_Fail_Expect_Error() {
 
 	request := dto.UpdateNameRequest{Id: 1,
@@ -278,44 +321,4 @@ func (suite *UpdateNameTestSuite) Test_Update_DB_Success_Expect_Nil_Error() {
 }
 
 
-func (suite *UpdateNameTestSuite) Test_Get_Id_Fail_Expect_Error() {
-	request := dto.UpdateNameRequest{Id: 1,
-		Name:        "Test_Get_Id_Fail_Expect_Error",
-		UpdatedUser: "unit_test_user",
-	}
-
-	mockGetShopRepo := new(mocksRepo.IGetShopRepository)
-	mockGetShopRepo.On("GetById", suite.ctx, request.Id).Return(nil, errors.New("Error"))
-
-
-	dom := NewDomain(suite.log,
-		suite.updateNameRepo,
-		mockGetShopRepo,
-		suite.pubSubProxy,
-	)
-	err := dom.UpdateName(suite.ctx, request)
-	suite.NotNil(err)
-	suite.Error(err)
-}
-func (suite *UpdateNameTestSuite) Test_Get_Name_Fail_Expect_Error() {
-	request := dto.UpdateNameRequest{Id: 1,
-		Name:        "Test_Get_Name_Fail_Expect_Error",
-		UpdatedUser: "unit_test_user",
-	}
-	shopEntity := suite.shopEntityDefault
-
-	mockGetShopRepo := new(mocksRepo.IGetShopRepository)
-	mockGetShopRepo.On("GetById", suite.ctx, request.Id).Return(&shopEntity, nil)
-	mockGetShopRepo.On("GetByName", suite.ctx, request.Name).Return(nil, errors.New("Error"))
-
-
-	dom := NewDomain(suite.log,
-		suite.updateNameRepo,
-		mockGetShopRepo,
-		suite.pubSubProxy,
-	)
-	err := dom.UpdateName(suite.ctx, request)
-	suite.NotNil(err)
-	suite.Error(err)
-}
 
