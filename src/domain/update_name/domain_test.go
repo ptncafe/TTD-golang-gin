@@ -294,8 +294,8 @@ func (suite *UpdateNameTestSuite) Test_Get_Id_Fail_Expect_Error() {
 		suite.pubSubProxy,
 	)
 	err := dom.UpdateName(suite.ctx, request)
-	suite.Nil(err)
-	suite.NoError(err)
+	suite.NotNil(err)
+	suite.Error(err)
 }
 func (suite *UpdateNameTestSuite) Test_Get_Name_Fail_Expect_Error() {
 	request := dto.UpdateNameRequest{Id: 1,
@@ -315,7 +315,7 @@ func (suite *UpdateNameTestSuite) Test_Get_Name_Fail_Expect_Error() {
 		suite.pubSubProxy,
 	)
 	err := dom.UpdateName(suite.ctx, request)
-	suite.Nil(err)
-	suite.NoError(err)
+	suite.NotNil(err)
+	suite.Error(err)
 }
 
